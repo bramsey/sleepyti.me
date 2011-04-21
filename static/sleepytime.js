@@ -1,44 +1,27 @@
+function zeroPad(count, num) {
+    var padded = num + '';
+    var pad = count - padded.length;
+    for(i = 0; i < pad; i++) {
+        padded = '0' + padded;
+    }
+    return padded;
+}
+
 $(document).ready(function() {
-	function ren() {
-		// render the page -- in case you're wondering, 
-		// nothing will work without javascript!
-		var mrend = '';
-		mrend = mrend +
-		'<div class="intro" style="margin-bottom:20px;"><font face="Garamond" size=5>I have to wake up at <span class="waketime" style="display:none;"></div>' +
-		
-		'<div>' +
-		'<select id="hour">' +
-		'<option>hour</option>';
-		
+	// render the page -- in case you're wondering, nothing will work 
+	// without javascript!
+	function render() {
 		// populate our lists
 		for(var h = 1; h <= 12; h++) {
-			mrend = mrend + '<option>' + h + '</option>';	
+    		$('#hour').append('<option value="' + h + '">' + h + '</option>');
 		}
-		
-		mrend = mrend + '</select></td><td><select id="minute"><option>minute</option>';
-		
 		for(var m = 0; m <= 55; m += 5) {
-			if(m < 10) {
-				mrend = mrend + '<option value="' + m + '">0' + m + '</option>';
-			}
-			else {
-				mrend = mrend + '<option>' + m + '</option>';
-			}
-			
+        	$('#minute').append('<option value="' + m + '">' + zeroPad(2, m) + '</option>');
 		}
 		
-		mrend = mrend + 
-		'</select>' +
-		'<select id="ampm"><option>AM</option><option>PM</option></select>' +
-		'</div>' +
-		
-		'<div id="nowtop" style="text-align:center;"><hr color="white" width="25%"><font color="#666666"><i>or, find out when to wake up if you go to bed now</i></div>' +
-		'<div style="text-align:center; margin-top:20px"><input type="button" value="zzz" id="sleepnow" width="100%"/></div>' +
-		
-		'<div><span class="results" style="display:none;"></span></div>';
-		$('#main').html(mrend);
+		$('#content').show();
 	}
-	ren();
+	render();
     window.scrollTo(0,1);
 	
 	function putads() {
@@ -48,19 +31,19 @@ $(document).ready(function() {
 	
 	// calculates an hour and a half back
 	function sleepback(hr, min, an) {
-                var rmin = 0;
-                var rhr = 0;
-                var a = an;
-                if(min < 30) {
-                        rmin = (min * 1) + (30 * 1);
-                        rhr = hr - 2;
-                }
-                else if(min >= 30) {
-                        rmin = min - 30;
-                        rhr = hr - 1;
-                }
-                if(rhr < 1) {
-                        rhr = 12 + rhr;
+        var rmin = 0;
+        var rhr = 0;
+        var a = an;
+        if(min < 30) {
+            rmin = (min * 1) + (30 * 1);
+            rhr = hr - 2;
+        }
+        else if(min >= 30) {
+            rmin = min - 30;
+            rhr = hr - 1;
+        }
+        if(rhr < 1) {
+            rhr = 12 + rhr;
                         
 			if(a == "AM") {
 				a = "PM";
@@ -68,9 +51,8 @@ $(document).ready(function() {
 			else {
 				a = "AM";
 			}
-			
-                }
-                
+        }
+            
 		var r = [rhr, rmin, a];
 		return r;
 	}
@@ -83,7 +65,6 @@ $(document).ready(function() {
 		var hr = rightnow.getHours();
 		var dhr = 0; // separate variable to display because (24 hr clock)
 		var ap = '';
-		
 		
 		// it takes 14 minutes to fall asleep
 		var min = rightnow.getMinutes() + 14;
@@ -101,9 +82,6 @@ $(document).ready(function() {
 			}
 		}
 		
-		r = '<p>It takes the average human <b>fourteen minutes</b> to fall asleep.</p>' +
-		'<p>If you head to bed right now, you should try to wake up at one of the following times:</p>' +
-		'<h2><font color="#666666">';
 		for(var ctr = 0; ctr < 6; ctr++) { // normal sleep schedule
 			// add an hour and a half
 			if(min < 30) {
@@ -138,43 +116,40 @@ $(document).ready(function() {
 			}
 			if(ctr == 0) {
 				if(min > 9) {
-					r = r  + '<font size="7">' + dhr + ':' + min + ap + '</font>';
+					r = r + '<div class="time">' + dhr + ':' + min + ap + '</div>';
 				}
 				else {
-					r = r + '<font size="7">' + dhr + ':0' + min + ap + '</font>';
+					r = r + '<div class="time">' + dhr + ':0' + min + ap + '</div>';
 				}
 			}
 			else if(ctr == 4 || ctr == 5) {
 				if(min > 9) {
-					r = r + ' <i>or</i> <font color="#00CC33" size="7">' + dhr + ':' + min + ap + '</font>';
+					r = r + '<div class="time brightgreen">' + dhr + ':' + min + ap + '</div>';
 				}
 				else {
-					r = r + ' <i>or</i> <font color="#00CC33" size="7">' + dhr + ':0' + min + ap;
+					r = r + '<div class="time brightgreen">' + dhr + ':0' + min + ap + '</div>';
 				}
 			}
 			else if(ctr == 3) {
 				if(min > 9) {
-					r = r + ' <i>or</i> <font color="#99CC66" size="7">' + dhr + ':' + min + ap + '</font>';
+					r = r + '<div class="time green">' + dhr + ':' + min + ap + '</div>';
 				}
 				else {
-					r = r + ' <i>or</i> <font color="#99CC66" size="7">' + dhr + ':0' + min + ap + '</font>';
+					r = r + '<div class="time green">' + dhr + ':0' + min + ap + '</div>';
 				}	
 			}
 			else {
 				if(min > 9) {
-					r = r + ' <i>or</i> <font size="7">' + dhr + ':' + min + ap + '</font>';
+					r = r + ' <div class="time">' + dhr + ':' + min + ap + '</div>';
 				}
 				else {
-					r = r + ' <i>or</i> <font size="7">' + dhr + ':0' + min + ap + '</font>';
+					r = r + ' <div class="time">' + dhr + ':0' + min + ap + '</div>';
 				}
 			}	
 		}
-		r += '</h2></font>' +
-		'<p>A good night\'s sleep consists of 5-6 complete sleep cycles.</p>';
 		return r;
 	}
 
-	
 	// handle "sleep now" requests
 	// this currently fades out the #main id,
 	// and works in a totally separate div
@@ -183,25 +158,23 @@ $(document).ready(function() {
 		var answ = ''; // this is the text we return
 		var d = new Date();
 		answ = knockout(d); // knockout takes a Date() and returns a string of wake times
-		st = '<span id="bit" style=display:none><font face="Garamond" size=5>' +
-		answ + '</font></span>';
-		$('#main').hide();
-		$('#instant').html(st);
-		$('#instant').show()
-		$('#bit').show(250);
-		putads()
+		$('#intro').hide();
+		$('#picker').hide();
+		$('#wake').show()
+		$('#wake-times').html(answ);
+		$('#wake-times').show(250);
+		putads();
 	});
 	
 	// user changes the list, so we calculate times!
-	$("#main select").change(function () {
+	$("#picker select").change(function () {
 		if($("#hour").val() == 'hour' || $("#minute").val() == 'minute') {
 			return false;
 		}
-		
-		$('#nowtop').fadeOut(500); // ???
-		var ampm = $("#ampm").val();	
+			
 		var hr = $("#hour").val();
 		var min = $("#minute").val();
+		var ampm = $("#ampm").val();
 		var orig = [hr, min, ampm];
 		
 		if(hr == 12) {
@@ -213,8 +186,6 @@ $(document).ready(function() {
 			}
 		}
 		
-		var txt = '<p><font face="Garamond" size=5>You should try to <b>fall asleep</b> at one of the following times:</font></p>' +
-		'<font size=6>';
 		var first = true;
 		var times = new Array();
 		for(var c = 1; c <= 10; c++) {
@@ -240,21 +211,21 @@ $(document).ready(function() {
 				var temp = '';
 				if(nmin > 9) {
 					if(c == 6) {
-						temp = '<font color="#01DF74" size="7">' + nhr + ':' + nmin + ' ' + ampmt + '</font>';
+						temp = '<div class="time" style="font-color=#01DF74;">' + nhr + ':' + nmin + ' ' + ampmt + '</div>';
 						times.push(temp);
 					}
 					else {
-						temp = ' <i>or</i> ' + '<font color="#01DF74" size="7">' + nhr + ':' + nmin + ' ' + ampmt + '</font>';
+						temp = '<div class="time" style="font-color=#01DF74;">' + nhr + ':' + nmin + ' ' + ampmt + '</div>';
 						times.push(temp);
 					}
 				}
 				else { // insert 0
 					if(c == 6) {
-						temp = '<font color="#01DF74" size="7">' + nhr + ':0' + nmin + ' ' + ampmt + '</font>';
+						temp = '<div class="time" style="font-color=#01DF74;">' + nhr + ':0' + nmin + ' ' + ampmt + '</div>';
 						times.push(temp);
 					}
 					else {
-						temp = ' <i>or</i> ' + '<font color="#01DF74" size="7">' + nhr + ':0' + nmin + ' ' + ampmt + '</font>';
+						temp = '<div class="time" style="font-color=#01DF74;">' + nhr + ':0' + nmin + ' ' + ampmt + '</div>';
 						times.push(temp);
 					}
 				
@@ -263,19 +234,14 @@ $(document).ready(function() {
 			hr = nhr;
 			min = nmin;
 		}
+		var txt = '';
 		for(i = 3; i >= 0; i--) {
 			txt = txt + times[i];
 		}
-		
-		txt += '</font>'; 
-		
-		txt += '<p><font color="#0080FF">Please keep in mind that you should be <i>falling asleep</i> at these times.</p>' +
-		'<p>The average adult human takes <b>fourteen minutes</b> to fall asleep, so plan accordingly!</font></p>' +
-		'<p><font color="#9966CC">sleepyti.me works by counting backwards in <b>sleep cycles</b>. Sleep cycles typically last <b>90 minutes</b>.</p>' +
-		'<p>Waking up in the middle of a sleep cycle leaves you feeling tired and groggy, but waking up <i>in between</i> cycles lets you wake up feeling refreshed and alert!</font></p>';
-		$('#main').hide();
-		$('#instant').html(txt)
-		$('#instant').show(500)
+		$('#picker').hide();
+		$('#sleep').show()
+		$('#sleep-times').html(txt)
+		$('#sleep-times').show(500)
 		
 		var wtime = "";
 		if(orig[1] > 9) {
@@ -284,8 +250,8 @@ $(document).ready(function() {
 		else {
 			wtime = '<b>' + orig[0] + ':0' + orig[1] + ' ' + orig[2] + '</b>';
 		}
-		$('.waketime').html(wtime);
-		$('.waketime').fadeIn(1000);
+		$('#waketime').html(wtime);
+		$('#waketime').fadeIn(1000);
 		putads();
 	});
 });

@@ -10,11 +10,70 @@ URL: http://github.com/davidshaw/sleepyti.me/
 <meta name="Description" content="Sleepyti.me is a bedtime calculator that can help you calculate when to fall asleep. By counting backwards in sleep cycles, sleepyti.me has the ability to help you wake up refreshed, instead of feeling groggy. Sleepyti.me can also help you figure out what time to set your alarm if you are going to sleep at that moment.">
 <meta name="Keywords" content="sleep, refreshed, sleeping, health, bedtime, bed, bed time, calculator, ajax, javascript">
 <meta name="robots" content="index">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1;"/>
-<script src="/static/jquery.js"></script>
-<script src="/static/sleepytime.js"></script>
-<script type="text/javascript">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0;"/>
+<link rel="stylesheet" href="static/style.css" type="text/css" media="screen" />
+<script src="static/jquery.js"></script>
+<script src="static/sleepytime.js"></script>
+</head>
+<body>
+<div id="title">sleepyti.me <font color="lightblue">bedtime calculator</font></div>
 
+<div id="content" class="hidden">
+    <p id="intro">I have to wake up at <span id="waketime" style="display:none;"></span></p>
+    <div id="picker">
+        <div class="waketime center">
+            <select id="hour"><option>hour</option></select>
+            <select id="minute"><option>minute</option></select>
+            <select id="ampm"><option>AM</option><option>PM</option></select>
+        </div>
+        <p class="center"><font color="#666666"><i>or, find out when to wake up if you go to bed now</i></p>
+		<input type="button" value="zzz" id="sleepnow"/>
+    </div>
+
+    <div id="wake" class="hidden">
+        <p>It takes the average human <b>fourteen minutes</b> to fall asleep.</p>
+		<p>If you head to bed right now, you should try to wake up at one of the following times:</p>
+		<div id="wake-times" class="hidden"></div>
+    	<p>A good night's sleep consists of 5-6 complete sleep cycles.</p>
+    </div>
+
+    <div id="sleep" class="hidden">
+        <p>You should try to <b>fall asleep</b> at one of the following times:</p>
+        <div id="sleep-times" class="hidden"></div>
+		<p><font color="#0080FF">Please keep in mind that you should be <i>falling asleep</i> at these times.</p>
+		<p>The average adult human takes <b>fourteen minutes</b> to fall asleep, so plan accordingly!</font></p>
+		<p><font color="#9966CC">sleepyti.me works by counting backwards in <b>sleep cycles</b>. Sleep cycles typically last <b>90 minutes</b>.</p>
+		<p>Waking up in the middle of a sleep cycle leaves you feeling tired and groggy, but waking up <i>in between</i> cycles lets you wake up feeling refreshed and alert!</font></p>
+    </div>
+
+    <div id="amazon" style="display:none;" align="center" valign="bottom">
+        <hr color="#CCCCCC">
+        <p id="footer">sleepyti.me is provided as a free service thanks to support from our ads.</p>
+        <script type="text/javascript"><!--
+        google_ad_client = "ca-pub-7082199327067068";
+        /* sleepy */
+        google_ad_slot = "4113086282";
+        google_ad_width = 300;
+        google_ad_height = 50;
+        //-->
+        </script>
+        <script type="text/javascript"
+        src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+        </script>
+        <div class="back center"><a href="" id="back">back</a></div>
+    </div>
+
+    <div id="fb"><iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fsleepyti.me&amp;layout=standard&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:80px;" allowTransparency="true"></iframe></div>
+</div>
+<noscript>
+    <div style="font-family:Garamond; margin-bottom:130px;">
+        <p>Hello, and welcome to sleepyti.me. Sleepyti.me is a bedtime calculator that counts backwards in sleep cycles and tells you when to go to sleep so that you can wake up refreshed!</p>
+        <p>This site is written in Javascript, which must be enabled in order to use the page. Thanks for visiting, and sorry for the inconvenience!</p>
+    </div>
+</noscript>
+
+<!-- Google Analytics -->
+<script type="text/javascript">
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-19580945-1']);
   _gaq.push(['_trackPageview']);
@@ -24,45 +83,7 @@ URL: http://github.com/davidshaw/sleepyti.me/
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
-
 </script>
-
-</head>
-<body link="#0080FF" vlink="#0080FF">
-    <div id="title"><font face="Garamond"><h1><i>sleepyti.me <font color="lightblue">bedtime calculator</font></i></h1></font></div>
-
-    <noscript>
-        <div style="font-family:Garamond; margin-bottom:130px;">
-            <p>Hello, and welcome to sleepyti.me. Sleepyti.me is a bedtime calculator that counts backwards in sleep cycles and tells you when to go to sleep so that you can wake up refreshed!</p>
-            <p>This site is written in Javascript, which must be enabled in order to use the page. Thanks for visiting, and sorry for the inconvenience!</p>
-        </div>
-    </noscript>
-
-
-<div id="main"></div>
-<div id="instant" style="display:none;"></div>
-
-<div id="amazon" style="display:none;" align="center" valign="bottom">
-    <hr color="#CCCCCC">
-    <p><font face="Garamond" size=5 color="#666666"><i>Sleepyti.me is provided as a free service thanks to support from our ads.</i></font></p>
-
-    <script type="text/javascript"><!--
-    google_ad_client = "ca-pub-7082199327067068";
-    /* sleepy */
-    google_ad_slot = "4113086282";
-    google_ad_width = 300;
-    google_ad_height = 50;
-    //-->
-    </script>
-    <script type="text/javascript"
-    src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-    </script>
-
-    <div><a href=""><center><h3>back</h3></center></a></div>
-</div>
-
-<div id="fb" style="margin-top:100px;">
-<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fsleepyti.me&amp;layout=standard&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:80px;" allowTransparency="true"></iframe>
-</div>
+<!-- END Google Analytics -->
 </body>
 </html>
