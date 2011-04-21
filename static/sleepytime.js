@@ -2,22 +2,21 @@ $(document).ready(function() {
 	function ren() {
 		// render the page -- in case you're wondering, 
 		// nothing will work without javascript!
-		$("#tit").html('<font face="Garamond"><h1>&nbsp;&nbsp;<i>sleepyti.me <font color="lightblue">bedtime calculator</font></i></h1></font>');
+		$("#tit").html('<font face="Garamond"><h1><i>sleepyti.me <font color="lightblue">bedtime calculator</font></i></h1></font>');
 		var mrend = '';
 		mrend = mrend +
-		'<table><tr width="100%">' +
-		'<td width="20%"></td>' +
-		'<td><span class="intro"><font face="Garamond" size=5>I have to wake up at <span class="waketime" style="display:none;"></span>&nbsp;</td>' +
-		'<td>' +
+		'<div class="intro" style="margin-bottom:20px;"><font face="Garamond" size=5>I have to wake up at <span class="waketime" style="display:none;"></div>' +
+		
+		'<div>' +
 		'<select id="hour">' +
-		'<option>(hour)</option>';
+		'<option>hour</option>';
 		
 		// populate our lists
 		for(var h = 1; h <= 12; h++) {
 			mrend = mrend + '<option>' + h + '</option>';	
 		}
 		
-		mrend = mrend + '</select></td><td><select id="minute"><option>(minute)</option>';
+		mrend = mrend + '</select></td><td><select id="minute"><option>minute</option>';
 		
 		for(var m = 0; m <= 55; m += 5) {
 			if(m < 10) {
@@ -29,16 +28,19 @@ $(document).ready(function() {
 			
 		}
 		
-		mrend = mrend + '</select></td><td><select id="ampm">' + 
-		'<option>AM</option><option>PM</option></select></td></tr>' +
-		'<tr><td><hr color="white"></td></tr>' +
-		'<tr valign=TOP><td></td><td align="center"><span id="nowtop"><hr color="white" width="25%"><big><font color="#666666"><i>or, find out when to wake up<br/>if you go to bed now</i></font></big></td><td align="center"><hr color="white" width="25%"><input type="button" value="zzz" id="sleepnow"/></span></td>' +
-		'<td></td></span>' +
-		'<td></tr><tr><span class="results" style="display:none;"></span></td>' + 
-		'</tr></table>';
+		mrend = mrend + 
+		'</select>' +
+		'<select id="ampm"><option>AM</option><option>PM</option></select>' +
+		'</div>' +
+		
+		'<div id="nowtop" style="text-align:center;"><hr color="white" width="25%"><font color="#666666"><i>or, find out when to wake up if you go to bed now</i></div>' +
+		'<div style="text-align:center; margin-top:20px"><input type="button" value="zzz" id="sleepnow" width="100%"/></div>' +
+		
+		'<div><span class="results" style="display:none;"></span></div>';
 		$('#main').html(mrend);
 	}
 	ren();
+    window.scrollTo(0,1);
 	
 	function putads() {
 		// let's throw in some ads
@@ -100,7 +102,9 @@ $(document).ready(function() {
 			}
 		}
 		
-		r = '<table><tr><td width="5%"></td><td><font size="5"><p>It takes the average human <b>fourteen minutes</b> to fall asleep.</p><p>If you head to bed right now, you should try to wake up at one of the following times:</p><h2><font color="#666666">';
+		r = '<p>It takes the average human <b>fourteen minutes</b> to fall asleep.</p>' +
+		'<p>If you head to bed right now, you should try to wake up at one of the following times:</p>' +
+		'<h2><font color="#666666">';
 		for(var ctr = 0; ctr < 6; ctr++) { // normal sleep schedule
 			// add an hour and a half
 			if(min < 30) {
@@ -135,38 +139,39 @@ $(document).ready(function() {
 			}
 			if(ctr == 0) {
 				if(min > 9) {
-					r = r  + dhr + ':' + min + ap;
+					r = r  + '<font size="7">' + dhr + ':' + min + ap + '</font>';
 				}
 				else {
-					r = r + dhr + ':0' + min + ap;
+					r = r + '<font size="7">' + dhr + ':0' + min + ap + '</font>';
 				}
 			}
 			else if(ctr == 4 || ctr == 5) {
 				if(min > 9) {
-					r = r + ' <i>or</i> <font color="#00CC33">' + dhr + ':' + min + ap + '</font>';
+					r = r + ' <i>or</i> <font color="#00CC33" size="7">' + dhr + ':' + min + ap + '</font>';
 				}
 				else {
-					r = r + ' <i>or</i> <font color="#00CC33">' + dhr + ':0' + min + ap;
+					r = r + ' <i>or</i> <font color="#00CC33" size="7">' + dhr + ':0' + min + ap;
 				}
 			}
 			else if(ctr == 3) {
 				if(min > 9) {
-					r = r + ' <i>or</i> <font color="#99CC66">' + dhr + ':' + min + ap + '</font>';
+					r = r + ' <i>or</i> <font color="#99CC66" size="7">' + dhr + ':' + min + ap + '</font>';
 				}
 				else {
-					r = r + ' <i>or</i> <font color="#99CC66">' + dhr + ':0' + min + ap + '</font>';
+					r = r + ' <i>or</i> <font color="#99CC66" size="7">' + dhr + ':0' + min + ap + '</font>';
 				}	
 			}
 			else {
 				if(min > 9) {
-					r = r + ' <i>or</i> ' + dhr + ':' + min + ap;
+					r = r + ' <i>or</i> <font size="7">' + dhr + ':' + min + ap + '</font>';
 				}
 				else {
-					r = r + ' <i>or</i> ' + dhr + ':0' + min + ap;
+					r = r + ' <i>or</i> <font size="7">' + dhr + ':0' + min + ap + '</font>';
 				}
 			}	
 		}
-		r = r + '</h2></font><p>A good night\'s sleep consists of 5-6 complete sleep cycles.</p>';
+		r += '</h2></font>' +
+		'<p>A good night\'s sleep consists of 5-6 complete sleep cycles.</p>';
 		return r;
 	}
 
@@ -190,7 +195,7 @@ $(document).ready(function() {
 	
 	// user changes the list, so we calculate times!
 	$("#main select").change(function () {
-		if($("#hour").val() == '(hour)' || $("#minute").val() == '(minute)') {
+		if($("#hour").val() == 'hour' || $("#minute").val() == 'minute') {
 			return false;
 		}
 		
@@ -209,7 +214,8 @@ $(document).ready(function() {
 			}
 		}
 		
-		var txt = '<table><tr><td width="5%"></td><td><font face="Garamond" size=5>You should try to <b>fall asleep</b> at one of the following times:<br/><br/><font size=6>';
+		var txt = '<p><font face="Garamond" size=5>You should try to <b>fall asleep</b> at one of the following times:</font></p>' +
+		'<font size=6>';
 		var first = true;
 		var times = new Array();
 		for(var c = 1; c <= 10; c++) {
@@ -262,10 +268,12 @@ $(document).ready(function() {
 			txt = txt + times[i];
 		}
 		
-		txt = txt + '</font>'; 
+		txt += '</font>'; 
 		
-		txt = txt + '<br/><br/><font color="#0080FF">Please keep in mind that you should be <i>falling asleep</i> at these times.<br/><br/> The average adult human takes <b>fourteen minutes</b> to fall asleep, so plan accordingly!</font>';
-		txt = txt + '<br/></br><font color="#9966CC">sleepyti.me works by counting backwards in <b>sleep cycles</b>. Sleep cycles typically last <b>90 minutes</b>.<br/><br/>Waking up in the middle of a sleep cycle leaves you feeling tired and groggy, but waking up <i>in between</i> cycles lets you wake up feeling refreshed and alert!</font>';
+		txt += '<p><font color="#0080FF">Please keep in mind that you should be <i>falling asleep</i> at these times.</p>' +
+		'<p>The average adult human takes <b>fourteen minutes</b> to fall asleep, so plan accordingly!</font></p>' +
+		'<p><font color="#9966CC">sleepyti.me works by counting backwards in <b>sleep cycles</b>. Sleep cycles typically last <b>90 minutes</b>.</p>' +
+		'<p>Waking up in the middle of a sleep cycle leaves you feeling tired and groggy, but waking up <i>in between</i> cycles lets you wake up feeling refreshed and alert!</font></p>';
 		$('#main').hide();
 		$('#instant').html(txt)
 		$('#instant').show(500)
