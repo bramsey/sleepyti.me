@@ -2,7 +2,6 @@ $(document).ready(function() {
 	function ren() {
 		// render the page -- in case you're wondering, 
 		// nothing will work without javascript!
-		$("#tit").html('<font face="Garamond"><h1><i>sleepyti.me <font color="lightblue">bedtime calculator</font></i></h1></font>');
 		var mrend = '';
 		mrend = mrend +
 		'<div class="intro" style="margin-bottom:20px;"><font face="Garamond" size=5>I have to wake up at <span class="waketime" style="display:none;"></div>' +
