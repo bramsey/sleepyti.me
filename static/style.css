@@ -78,19 +78,8 @@ input, select {
     text-align: center;
 }
 
-#picker {
-    margin-bottom: 130px;
-}
-
 #sleepnow {
     width: 100%;
-}
-
-#footer {
-    font-color: #666666;
-    font-family: Garamond;
-    font-size: 20px;
-    font-style: italic;
 }
 
 .hidden {
